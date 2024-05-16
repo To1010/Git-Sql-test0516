@@ -5,110 +5,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Git・PHP・SQL テスト課題</title>
+    <title>Git・PHP・SQL・AJAXテスト課題</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#showComments").click(function() {
+                $("#commentTable").toggle(); // 表示と非表示を切り替える
+                if ($("#commentTable").is(":visible")) { // コメント一覧が表示されている場合
+                    $.ajax({
+                        url: 'comments.php', // URLまたはディレクトリを記載
+                    })
+                    .done(function(data) { // 通信が成功したときの処理 
+                        $("#commentTable").html(data);
+                        $("#showComments").text("コメントを非表示にする"); // ボタンのテキストを変更
+                    })
+                    .fail(function(data) { // 通信が失敗したときの処理
+                        console.error('コメントの取得に失敗しました。');
+                    })
+                    .always(function(data) { //通信の成否にかかわらず実行する処理 
+                        // 必要ならば何かしらの処理を記述
+                    });
+                } else {
+                    $("#showComments").text("コメント一覧を表示する"); // ボタンのテキストを変更
+                }
+            });
+        });
+    </script>
+    <style>
+       
+    </style>
 </head>
 
 <body>
-    <section>
-        <h2>プロフィール・自己紹介</h2>
-        <h3>Hirayama</h3>
-        <img src="./img/スクリーンショット 2024-03-06 171748.png" alt="Your Photo">
-        <p>ザックリとした状態でごめんなさい(m´・ω・｀)m ｺﾞﾒﾝ…</p>
-        <h3>Umeda</h3>
-        <img src="./img/umeda.png" alt="umeda Photo">
-        <p>梅田綾夏です</p>
+    <h1>Git・SQL・PHP test<br>　　　　　からのAJAXテスト版</h1>
+
+    <section class="profile">
+        <h2>プロフィール</h2>
+        <div class="profile-content">
+            <div class="p-1">
+                <h3>Hirayama</h3>
+                <p>長崎県在住のナマケモノです<br>日向ぼっこしたい (・ω・)ノ</p>
+            </div>
+            <div class="p-2">
+                <img src="./img/スクリーンショット 2024-03-06 171748.png" alt="Your Photo">
+            </div>
+        </div>
     </section>
+    <section class="profile">
+        <h2>プロフィール</h2>
+        <div class="profile-content">
+            <div class="p-1">
+                <h3>Umeda</h3>
+                <p>梅田綾夏です</p>
+            </div>
+            <div class="p-2">
+                <img src="./img/umeda.png" alt="umeda Photo">
+            </div>
+        </div>
+    </section>
+
     <section>
         <h2>お問い合わせフォーム</h2>
-        <form action="process_form.php" method="post">
-    <label for="name">名前:</label>
-    <input type="text" id="name" name="name" required><br>
-    <label for="email">メールアドレス:</label>
-    <input type="email" id="email" name="email" required><br>
-    <label for="subject">宛先:</label>
-    <select id="subject" name="subject" required>
-    <option value="平山さん宛">平山さん宛</option>
-        <option value="梅田宛">梅田宛</option>
-    </select><br>
-    <label for="message">メッセージ:</label><br>
-    <textarea id="message" name="message" rows="4" cols="50" required></textarea><br>
-    <input type="submit" value="送信">
-</form>
+        <div class="form">
+            <form action="process_form.php" method="post">
+                <label for="subject">To: </label>
+                <select id="subject" name="subject" required>
+                    <option value="平山さんへ">平山さんへ</option>
+                    <option value="梅田へ">梅田へ</option>
+                </select><br>
+                <label for="name">From: </label>
+                <input type="text" id="name" name="name" placeholder="Name" required><br>
+                <label for="email">Email: </label>
+                <input type="email" id="email" name="email" placeholder="xxx@xxxxx" required><br>
+                <label for="message">Message:　　　　</label><br>
+                <textarea id="message" name="message" rows="4" cols="50" placeholder="ひと言どうぞ" required></textarea><br>
+                <input type="submit" value="送信">
+            </form>
+        </div>
     </section>
 
     <section>
+    <div class="button-container">
         <h2>今日のコメント</h2>
-        <?php
-        // DBからコメントを取得して表示する処理
-        // データベースへの接続情報
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "git_test";
-
-        // データベースに接続
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // 接続を確認
-        if ($conn->connect_error) {
-            die("接続に失敗しました: " . $conn->connect_error);
-        }
-
-        // コメントを取得するクエリ
-        $sql = "SELECT name, subject, message FROM comments";
-
-        // クエリを実行して結果を取得
-        $result = $conn->query($sql);
-        
-        // 結果があるかどうかをチェックして表示
-        if ($result->num_rows > 0) {
-            // データがある場合は表示
-            while ($row = $result->fetch_assoc()) {
-                echo "Name: " . $row["name"] . "<br>";
-                echo "宛先: " . $row["subject"] . "<br>"; // 宛先を表示
-                echo "ひとこと: " . $row["message"] . "<br><br>";
-            }
-        } else {
-            echo "コメントはありません";
-        }
-        
-        // データベース接続を閉じる
-        $conn->close();
-        ?>
-
-        <?php
-        $nameErr = $emailErr = $messageErr = "";
-        $name = $email = $message = "";
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["name"])) {
-                $nameErr = "名前は必須です";
-            } else {
-                $name = test_input($_POST["name"]);
-            }
-
-            if (empty($_POST["email"])) {
-                $emailErr = "メールアドレスは必須です";
-            } else {
-                $email = test_input($_POST["email"]);
-            }
-
-            if (empty($_POST["message"])) {
-                $messageErr = "メッセージは必須です";
-            } else {
-                $message = test_input($_POST["message"]);
-            }
-        }
-
-        function test_input($data)
-        {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-        ?>
+        <button id="showComments">コメント一覧を表示する</button>
+    </div>
+    <div id="commentTable" style="display: none;"></div> <!-- 初期状態では非表示 -->
     </section>
+
+    <div class="footer">
+        <a href="prior_comments.php" class="button">昨日までのコメントを表示する</a>
+    </div>
 </body>
 
 </html>
