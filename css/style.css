@@ -86,86 +86,145 @@ h2 {
   /* 余白を削除 */
 }
 .profile-content {
-    display: flex;
-    flex-direction: row-reverse;
-    /* 要素を横方向に逆順に配置 */
-    justify-content: center;
-    /* アイテムを左右に配置 */
-    align-items: center;
-    /* アイテムを垂直方向に中央揃え */
-  }
-
-  .form {
-    text-align: left;
-    width: 50%; /* Adjust width as needed */
-    margin: 0 auto; /* Center align the form */
-    padding: 20px; /* Add padding around the form */
-  }
-  .comment-text {
-    word-wrap: break-word;
+  display: flex;
+  flex-direction: row-reverse;
+  /* 要素を横方向に逆順に配置 */
+  justify-content: center;
+  /* アイテムを左右に配置 */
+  align-items: center;
+  /* アイテムを垂直方向に中央揃え */
 }
-  .form-group {
-    margin-bottom: 10px;
-  }
-  
-  .form-group label {
-    display: inline-block;
-    width: 120px; /* Adjust as needed */
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: calc(100% - 120px); /* Adjust as needed */
-  }
-  input[type="submit"] {
-    all: unset;
-    align-items: center;
-    /* アイテムを垂直方向に中央揃え */
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: hsl(229, 96%, 62%);
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 影の設定 */
-        box-shadow: 4px 4px lightblue;
-        transition: 0.3s; /* ホバー時のトランジション */
 
-  }
-  
-  .footer {
-    display: flex;
-    justify-content: center; /* 横方向（X軸）中央揃え */
-    align-items: center; /* 縦方向（Y軸）中央揃え */
-    padding-bottom: 50px;
+.form {
+  text-align: left;
+  width: 50%; /* Adjust width as needed */
+  margin: 0 auto; /* Center align the form */
+  padding: 20px; /* Add padding around the form */
+}
+.comment-text {
+  word-wrap: break-word;
+}
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: inline-block;
+  width: 120px; /* Adjust as needed */
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: calc(100% - 120px); /* Adjust as needed */
+}
+input[type="submit"] {
+  all: unset;
+  align-items: center;
+  /* アイテムを垂直方向に中央揃え */
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: hsl(229, 96%, 62%);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 影の設定 */
+  box-shadow: 4px 4px lightblue;
+  transition: 0.3s; /* ホバー時のトランジション */
+}
+
+.footer {
+  display: flex;
+  justify-content: center; /* 横方向（X軸）中央揃え */
+  align-items: center; /* 縦方向（Y軸）中央揃え */
+  padding-bottom: 50px;
 }
 .button {
-    align-items: center;
-    /* アイテムを垂直方向に中央揃え */
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: hsl(229, 96%, 62%);
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 影の設定 */
-        box-shadow: 8px 8px lightblue;
-        transition: 0.3s; /* ホバー時のトランジション */
-        
-      }
-      
-      .button:hover {
-        background-color: hwb(229 64% 1%); /* ホバー時の背景色 */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時の影の設定 */
-      }
-      
+  align-items: center;
+  /* アイテムを垂直方向に中央揃え */
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: hsl(229, 96%, 62%);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 影の設定 */
+  box-shadow: 8px 8px lightblue;
+  transition: 0.3s; /* ホバー時のトランジション */
+}
 
-  
-  
+.button:hover {
+  background-color: hwb(229 64% 1%); /* ホバー時の背景色 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時の影の設定 */
+}
+
+/* コメント一覧を表示するボタン */
+#showComments {
+  all: unset;
+  align-items: center;
+  /* アイテムを垂直方向に中央揃え */
+  display: inline-block;
+  padding: 8px 16px; /* 大きさを小さく調整 */
+  background-color: hsl(229, 96%, 62%);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 影の設定 */
+  box-shadow: 8px 8px lightblue;
+  transition: 0.3s; /* ホバー時のトランジション */
+  margin-bottom: 10px; /* タイトルの下にマージンを追加 */
+  margin-left: 10px; /* 左にマージンを追加してタイトルの横に移動 */
+}
+
+#showComments:hover {
+  background-color: hwb(229 64% 1%); /* ホバー時の背景色 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* ホバー時の影の設定 */
+}
+
+/* ボタンのコンテナ */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: -5px;
+}
+
+
+/* テーブルのスタイル */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* コメント情報のスタイル */
+.comment-box {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-box h4 {
+  margin-top: 0;
+}

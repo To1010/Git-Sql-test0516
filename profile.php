@@ -5,11 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Git・PHP・SQL テスト課題</title>
+    <title>Git・PHP・SQL・AJAXテスト課題</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#showComments").click(function() {
+                $("#commentTable").toggle(); // 表示と非表示を切り替える
+                if ($("#commentTable").is(":visible")) { // コメント一覧が表示されている場合
+                    $.ajax({
+                        url: 'comments.php', // URLまたはディレクトリを記載
+                    })
+                    .done(function(data) { // 通信が成功したときの処理 
+                        $("#commentTable").html(data);
+                        $("#showComments").text("コメントを非表示にする"); // ボタンのテキストを変更
+                    })
+                    .fail(function(data) { // 通信が失敗したときの処理
+                        console.error('コメントの取得に失敗しました。');
+                    })
+                    .always(function(data) { //通信の成否にかかわらず実行する処理 
+                        // 必要ならば何かしらの処理を記述
+                    });
+                } else {
+                    $("#showComments").text("コメント一覧を表示する"); // ボタンのテキストを変更
+                }
+            });
+        });
+    </script>
+    <style>
+       
+    </style>
 </head>
 
 <body>
-    <h1>Git・SQL・PHP test</h1>
+    <h1>Git・SQL・PHP test<br>　　　　　からのAJAXテスト版</h1>
+
     <section class="profile">
         <h2>プロフィール</h2>
         <div class="profile-content">
@@ -49,74 +78,20 @@
                 <label for="email">Email: </label>
                 <input type="email" id="email" name="email" placeholder="xxx@xxxxx" required><br>
                 <label for="message">Message:　　　　</label><br>
-                <textarea id="message" name="message" rows="4" cols="50" placeholder="ひと言どうぞ"required></textarea><br>
+                <textarea id="message" name="message" rows="4" cols="50" placeholder="ひと言どうぞ" required></textarea><br>
                 <input type="submit" value="送信">
             </form>
         </div>
     </section>
 
     <section>
+    <div class="button-container">
         <h2>今日のコメント</h2>
-        <?php
-        // DBからコメントを取得して表示する処理
-        require('db_connect.php'); // データベースへの接続情報を含むファイルを読み込む
-
-        $currentDate = date("Y-m-d"); // 今日の日付を取得
-        $sql = "SELECT name, subject, message, created_at FROM comments WHERE DATE(created_at) = '$currentDate' ORDER BY id DESC";
-
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "To: " . $row["subject"] . "　　";
-                echo "From: " . $row["name"] . "　　　　　　　　　";
-                echo "Time: " . date("H時i分", strtotime($row["created_at"])) . "<br>";
-                $message = $row["message"];
-                $wrapped_message = wordwrap($message, 50, "<br>", true);
-                echo "ひとこと : " . $wrapped_message . "<br>";
-
-            }
-        } else {
-            echo "今日のコメントはありません";
-        }
-        // データベース接続を閉じる
-        $conn->close();
-        ?>
+        <button id="showComments">コメント一覧を表示する</button>
+    </div>
+    <div id="commentTable" style="display: none;"></div> <!-- 初期状態では非表示 -->
     </section>
 
-    <?php
-    $nameErr = $emailErr = $messageErr = "";
-    $name = $email = $message = "";
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["name"])) {
-            $nameErr = "名前は必須です";
-        } else {
-            $name = test_input($_POST["name"]);
-        }
-
-        if (empty($_POST["email"])) {
-            $emailErr = "メールアドレスは必須です";
-        } else {
-            $email = test_input($_POST["email"]);
-        }
-
-        if (empty($_POST["message"])) {
-            $messageErr = "メッセージは必須です";
-        } else {
-            $message = test_input($_POST["message"]);
-        }
-    }
-
-    function test_input($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-    ?>
-    </section>
     <div class="footer">
         <a href="prior_comments.php" class="button">昨日までのコメントを表示する</a>
     </div>
